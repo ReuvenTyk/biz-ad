@@ -71,10 +71,10 @@ class Menu extends React.Component<MenuProps, MenuState> {
           ...json,
         ]);
 
-        /* this.setState(() => ({
+        this.setState(() => ({
           cards: json,
           filteredByName: filtered,
-        })); */
+        }));
       });
   };
 
@@ -100,30 +100,14 @@ class Menu extends React.Component<MenuProps, MenuState> {
   nameChangeSearch = (selected: string) => {
     const filtered = this.filterByName(selected, [...this.state.cards]);
 
-    /*  this.setState((state, props) => ({
+    this.setState((state, props) => ({
       filteredByName: filtered,
       selectedSearch: selected,
-    })); */
+    }));
   };
 
   displayBtnCss = (mode: displayMode): string => {
     return mode === this.state.display ? "btn-secondary" : "btn-default";
-  };
-
-  export = () => {
-    const res = getRequest(
-      `cards/export?category=${this.state.selectedSearch}`
-    );
-    if (!res) return;
-
-    res
-      .then((res) => res.json())
-      .then((json) => {
-        // console.log(json);
-        this.setState(() => ({
-          fileName: json.name,
-        }));
-      });
   };
 
   closeMessage = () => {
@@ -133,28 +117,21 @@ class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   render() {
-    // conditional rendering - if no dishes display an empty page
     if (this.state.filteredByName.length === 0)
       return <p>No Businesses to show</p>;
 
     return (
       <>
-        <Title text="Order Delivery or Takeaway" />
+        <Title text="Biz Ad" secText="Advertising your business" />
 
         <div className="d-flex justify-content-between px-5">
           <div className="d-flex align-items-center">
             <label className="pe-2">Category:</label>
-            {/* <input
+            <input
               onChange={(e) => this.nameChangeSearch(e.target.value)}
               value={this.state.selectedSearch}
               className="form-select text-capitalize"
-            >
-              {this.state.nameSearch.map((nameSearch) => (
-                <option key={nameSearch} value={nameSearch}>
-                  {nameSearch}
-                </option>
-              ))}
-            </input> */}
+            ></input>
 
             <button onClick={this.sortDishes} className="btn btn-default mx-4">
               Name {this.state.sortDir === 1 ? "(A-Z)" : "(Z-A)"}
@@ -173,20 +150,7 @@ class Menu extends React.Component<MenuProps, MenuState> {
               <i className="bi-grid-3x3-gap-fill"></i>
             </button>
           </div>
-
-          <div>
-            <button onClick={this.export} className="btn btn-primary">
-              Export
-            </button>
-          </div>
         </div>
-
-        {/* {this.state.fileName && (
-          <Message
-            fileName={this.state.fileName}
-            handleClick={this.closeMessage}
-          />
-        )} */}
 
         <div className={this.state.display}>
           {this.state.filteredByName.map((card) => (

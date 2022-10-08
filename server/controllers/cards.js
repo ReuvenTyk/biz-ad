@@ -6,7 +6,7 @@ const fs = require("fs");
 module.exports = {
   getCards: async function (req, res, next) {
     try {
-      const result = await Card.find().sort({ name: 1 }).limit(20); // 1 = ascending
+      const result = await Card.find().sort({ name: 1 }).limit(20);
       res.json(result);
     } catch (err) {
       console.log(err);

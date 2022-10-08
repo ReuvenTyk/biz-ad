@@ -1,57 +1,154 @@
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { postRequest } from "../../services/apiService";
+import Joi from "joi";
 import Title from "../Title/Title";
+import { useEffect, useRef } from "react";
 
-function submit() {
-  /* const data = {
-    name,
-    email,
-    password,
-  };
-
-  handleRequest("users/signup", data).then((res) => {
-    // console.log('registered');
-    navigate("/login");
-  }); */
+export interface IErrors {
+  [key: string]: string;
 }
 
 function SignUp() {
+  const navigate = useNavigate();
+
+  const inputRef = useRef<null | HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+
+    validate: (values) => {
+      const errors: IErrors = {};
+      let disable = true;
+
+      const schema = Joi.object().keys({
+        name: Joi.string().required().min(2).max(256),
+        email: Joi.string().required().min(6).max(256),
+        password: Joi.string().required().min(6).max(1024).label("Password"),
+        confirmPassword: Joi.any()
+          .required()
+          .equal(Joi.ref("password"))
+          .options({
+            messages: {
+              "any.only": "confirm password does not match password",
+            },
+          }),
+      });
+
+      const { error } = schema.validate(values);
+
+      if (error) {
+        error.details.forEach((item) => {
+          if (item.context) {
+            const key = item.context.key + "";
+            errors[key] = item.message;
+          }
+        });
+      } else {
+        disable = false;
+      }
+
+      return errors;
+    },
+
+    onSubmit: (values) => {
+      const sendToServer = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      };
+
+      postRequest("users/signup", sendToServer).then((res) => {
+        console.log("signup");
+        navigate("/login");
+      });
+    },
+  });
   return (
-    <div>
+    <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
       <Title text="Sign Up" />
-
-      <div className="container-fluid w-50">
-        <form className="mx-1 mx-md-4">
-          <div className="d-flex flex-row align-items-center mb-4">
-            <input type="text" placeholder="Name" className="form-control" />
-          </div>
-
-          <div className="d-flex flex-row align-items-center mb-4">
-            <input type="text" placeholder="Email" className="form-control" />
-          </div>
-
-          <div className="d-flex flex-row align-items-center mb-4">
-            <input
-              type="text"
-              placeholder="Password"
-              className="form-control"
-            />
-          </div>
-
-          <div className="d-flex flex-row align-items-center mb-4">
-            <input
-              type="text"
-              placeholder="Confirm Password"
-              className="form-control"
-            />
-          </div>
-
-          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button onClick={submit} className="btn btn-primary btn-lg">
-              Sign Up
-            </button>
-          </div>
-        </form>
+      <div className="d-flex flex-row align-items-center mb-4">
+        <input
+          ref={inputRef}
+          className="form-control"
+          type="text"
+          placeholder="Name"
+          id="name"
+          name="name"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+          onBlur={formik.handleBlur}
+        />
       </div>
-    </div>
+      {formik.touched.name && formik.errors.name ? (
+        <div className="text-danger">{formik.errors.name}</div>
+      ) : null}
+
+      <div className="d-flex flex-row align-items-center mb-4">
+        <input
+          id="email"
+          name="email"
+          type="text"
+          placeholder="Email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          className="form-control"
+        />
+      </div>
+
+      {formik.touched.email && formik.errors.email ? (
+        <div className="text-danger">{formik.errors.email}</div>
+      ) : null}
+
+      <div className="d-flex flex-row align-items-center mb-4">
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          className="form-control"
+        />
+      </div>
+
+      {formik.touched.password && formik.errors.password ? (
+        <div className="text-danger">{formik.errors.password}</div>
+      ) : null}
+
+      <div className="d-flex flex-row align-items-center mb-4">
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          onChange={formik.handleChange}
+          value={formik.values.confirmPassword}
+          className="form-control"
+        />
+      </div>
+
+      {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+        <div className="text-danger">{formik.errors.confirmPassword}</div>
+      ) : null}
+
+      <div className="d-flex justify-content-center mt-4">
+        <button type="submit" className="btn btn-primary">
+          Sign Up
+        </button>
+      </div>
+    </form>
   );
 }
 
