@@ -8,13 +8,8 @@ function LogOut() {
     localStorage.removeItem(TOKEN_KEY);
     navigate("/login");
   });
-  function handleLogout() {}
 
-  return (
-    <a role="button" onClickCapture={handleLogout} className="nav-link hand">
-      Log Out
-    </a>
-  );
+  return <></>;
 }
 
 export default LogOut;

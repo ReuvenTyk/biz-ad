@@ -54,30 +54,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
       });
   }
 
-  sortDishes = () => {
-    const newDir = this.state.sortDir === 1 ? -1 : 1;
-
-    this.setState(() => ({
-      sortDir: newDir,
-    }));
-
-    const res = getRequest(`cards/sort/${newDir}`);
-    if (!res) return;
-
-    res
-      .then((res) => res.json())
-      .then((json) => {
-        const filtered = this.filterByName(this.state.selectedSearch, [
-          ...json,
-        ]);
-
-        this.setState(() => ({
-          cards: json,
-          filteredByName: filtered,
-        }));
-      });
-  };
-
   changeDisplay = (mode: displayMode) => {
     this.setState((state, props) => ({
       display: mode,
@@ -85,15 +61,15 @@ class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   filterByName = (
-    category: string,
+    nameSearch: string,
     cards: Array<CardType>
   ): Array<CardType> => {
-    if (category === "") {
+    if (nameSearch === "") {
       return cards;
     }
 
     return cards.filter((card) => {
-      return card.name === category;
+      return card.name === nameSearch;
     });
   };
 
@@ -110,33 +86,32 @@ class Menu extends React.Component<MenuProps, MenuState> {
     return mode === this.state.display ? "btn-secondary" : "btn-default";
   };
 
-  closeMessage = () => {
-    this.setState(() => ({
-      fileName: null,
-    }));
-  };
-
   render() {
-    if (this.state.filteredByName.length === 0)
-      return <p>No Businesses to show</p>;
+    // if (this.state.filteredByName.length === 0)
+    //   return <p>No Businesses to show</p>;
 
     return (
       <>
-        <Title text="Biz Ad" secText="Advertising your business" />
+        <Title
+          text="Biz Ad"
+          secText="Advertising your business"
+          // cssBgc="bg-white text-dark"
+        />
 
         <div className="d-flex justify-content-between px-5">
-          <div className="d-flex align-items-center">
-            <label className="pe-2">Category:</label>
+          <div className="d-flex input-group mb-2 w-25">
+            <span className="input-group-text" id="basic-addon1">
+              <i className="bi bi-search" />
+            </span>
             <input
+              type="text"
               onChange={(e) => this.nameChangeSearch(e.target.value)}
               value={this.state.selectedSearch}
-              className="form-select text-capitalize"
+              className="form-control"
+              placeholder="search by business name"
             ></input>
-
-            <button onClick={this.sortDishes} className="btn btn-default mx-4">
-              Name {this.state.sortDir === 1 ? "(A-Z)" : "(Z-A)"}
-            </button>
-
+          </div>
+          <div>
             <button
               onClick={(e) => this.changeDisplay(displayMode.list)}
               className={`btn ${this.displayBtnCss(displayMode.list)}`}

@@ -9,10 +9,6 @@ const cardSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  description: {
-    type: String,
-    require: true,
-  },
   phone: {
     type: String,
     require: true,
@@ -26,6 +22,10 @@ const cardSchema = new mongoose.Schema({
     require: true,
   },
   imgUrl: {
+    type: String,
+    require: true,
+  },
+  description: {
     type: String,
     require: true,
   },
