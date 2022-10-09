@@ -4,6 +4,7 @@ import "./App.css";
 import About from "./component/About/About";
 import Login from "./component/Auth/Login";
 import LogOut from "./component/Auth/LogOut";
+import PrivateRoute from "./component/Auth/PrivateRoute";
 import SignUp from "./component/Auth/SignUp";
 import Header from "./component/Header/Header";
 import Main, { displayMode } from "./component/Main/Main";
@@ -17,15 +18,40 @@ function App() {
       <Routes>
         {
           <Route
-            path="main"
-            element={<Main defaultDisplay={displayMode.grid} />}
+            path="/"
+            element={
+              <PrivateRoute>
+                <Main defaultDisplay={displayMode.grid} />
+              </PrivateRoute>
+            }
           ></Route>
         }
-        <Route path="services" element={<Services />}></Route>
-        <Route path="about" element={<About />}></Route>
+        <Route
+          path="services"
+          element={
+            <PrivateRoute>
+              <Services />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="about"
+          element={
+            <PrivateRoute>
+              <About />
+            </PrivateRoute>
+          }
+        ></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="login" element={<Login />}></Route>
-        <Route path="logout" element={<LogOut />}></Route>
+        <Route
+          path="logout"
+          element={
+            <PrivateRoute>
+              <LogOut />
+            </PrivateRoute>
+          }
+        ></Route>
       </Routes>
     </>
   );

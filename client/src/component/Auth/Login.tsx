@@ -1,44 +1,105 @@
-import { NavLink } from "react-router-dom";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import Title from "../Title/Title";
+import { IErrors } from "./SignUp";
+import Joi from "joi";
+import { postRequest } from "../../services/apiService";
+import { TOKEN_KEY } from "../../services/auth";
+import { useEffect, useRef } from "react";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const inputRef = useRef<null | HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+
+    validate: (values) => {
+      const errors: IErrors = {};
+
+      const schema = Joi.object().keys({
+        email: Joi.string()
+          .email({ minDomainSegments: 2, tlds: { allow: false } })
+          .required()
+          .min(6)
+          .max(256),
+        password: Joi.string().required().min(6).max(1024),
+      });
+
+      const { error } = schema.validate(values);
+
+      if (error) {
+        error.details.forEach((item) => {
+          if (item.context) {
+            const key = item.context.key + "";
+            errors[key] = item.message;
+          }
+        });
+      }
+      return errors;
+    },
+
+    onSubmit: (values) => {
+      const res = postRequest("users/login", values);
+
+      res
+        .then((res) => res.json())
+        .then((json) => {
+          localStorage.setItem(TOKEN_KEY, json.token);
+          navigate("/");
+        });
+    },
+  });
   return (
     <>
-      <Title text="Login" />
-      <div className="container-fluid w-50">
-        <form className="mx-1 mx-md-4">
-          {/* Email input */}
-          <div className="form-outline mb-4">
-            <input type="text" placeholder="Email" className="form-control" />
-          </div>
+      <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
+        <Title text="Login" />
 
-          {/* Password input */}
-          <div className="form-outline mb-4">
-            <input
-              type="text"
-              placeholder="Password"
-              className="form-control"
-            />
-          </div>
+        <div className="mb-3">
+          <input
+            ref={inputRef}
+            className="form-control"
+            type="text"
+            placeholder="Email"
+            id="email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            onBlur={formik.handleBlur}
+          />
 
-          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button /* onClick={submit} */ className="btn btn-primary btn-lg">
-              Login
-            </button>
-          </div>
+          {formik.touched.email && formik.errors.email ? (
+            <div className="text-danger">{formik.errors.email}</div>
+          ) : null}
+        </div>
+        <div className="mb-3">
+          <input
+            className="form-control"
+            type="password"
+            placeholder="Password"
+            id="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            onBlur={formik.handleBlur}
+          />
 
-          <div className="text-center">
-            <p>
-              Not a member?
-              {
-                <NavLink to="/signup" className="nav-link text-primary">
-                  Register
-                </NavLink>
-              }
-            </p>
-          </div>
-        </form>
-      </div>
+          {formik.touched.password && formik.errors.password ? (
+            <div className="text-danger">{formik.errors.password}</div>
+          ) : null}
+        </div>
+
+        <button type="submit" className="btn btn-primary btn-lg w-100">
+          Login
+        </button>
+      </form>
     </>
   );
 }

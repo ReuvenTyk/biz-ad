@@ -5,7 +5,7 @@ function Header() {
     <nav className="navbar navbar-primary bg-primary d-flex justify-content-between">
       <ul className="navbar-nav flex-row text-light ms-2">
         <li className="nav-item mx-2">
-          <NavLink to="/main" className="nav-link text-light">
+          <NavLink to="/" className="nav-link text-light">
             <i className="bi bi-building text-light">BizAd</i>
           </NavLink>
         </li>

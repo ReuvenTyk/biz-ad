@@ -30,11 +30,14 @@ function SignUp() {
 
     validate: (values) => {
       const errors: IErrors = {};
-      let disable = true;
 
       const schema = Joi.object().keys({
         name: Joi.string().required().min(2).max(256),
-        email: Joi.string().required().min(6).max(256),
+        email: Joi.string()
+          .email({ minDomainSegments: 2, tlds: { allow: false } })
+          .required()
+          .min(6)
+          .max(256),
         password: Joi.string().required().min(6).max(1024).label("Password"),
         confirmPassword: Joi.any()
           .required()
@@ -55,10 +58,7 @@ function SignUp() {
             errors[key] = item.message;
           }
         });
-      } else {
-        disable = false;
       }
-
       return errors;
     },
 
@@ -75,6 +75,7 @@ function SignUp() {
       });
     },
   });
+
   return (
     <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
       <Title text="Sign Up" />
@@ -90,10 +91,10 @@ function SignUp() {
           value={formik.values.name}
           onBlur={formik.handleBlur}
         />
+        {formik.touched.name && formik.errors.name ? (
+          <div className="text-danger">{formik.errors.name}</div>
+        ) : null}
       </div>
-      {formik.touched.name && formik.errors.name ? (
-        <div className="text-danger">{formik.errors.name}</div>
-      ) : null}
 
       <div className="d-flex flex-row align-items-center mb-4">
         <input
@@ -105,11 +106,11 @@ function SignUp() {
           value={formik.values.email}
           className="form-control"
         />
-      </div>
 
-      {formik.touched.email && formik.errors.email ? (
-        <div className="text-danger">{formik.errors.email}</div>
-      ) : null}
+        {formik.touched.email && formik.errors.email ? (
+          <div className="text-danger">{formik.errors.email}</div>
+        ) : null}
+      </div>
 
       <div className="d-flex flex-row align-items-center mb-4">
         <input
@@ -121,11 +122,11 @@ function SignUp() {
           value={formik.values.password}
           className="form-control"
         />
-      </div>
 
-      {formik.touched.password && formik.errors.password ? (
-        <div className="text-danger">{formik.errors.password}</div>
-      ) : null}
+        {formik.touched.password && formik.errors.password ? (
+          <div className="text-danger">{formik.errors.password}</div>
+        ) : null}
+      </div>
 
       <div className="d-flex flex-row align-items-center mb-4">
         <input
@@ -137,11 +138,11 @@ function SignUp() {
           value={formik.values.confirmPassword}
           className="form-control"
         />
-      </div>
 
-      {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-        <div className="text-danger">{formik.errors.confirmPassword}</div>
-      ) : null}
+        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+          <div className="text-danger">{formik.errors.confirmPassword}</div>
+        ) : null}
+      </div>
 
       <div className="d-flex justify-content-center mt-4">
         <button type="submit" className="btn btn-primary">
