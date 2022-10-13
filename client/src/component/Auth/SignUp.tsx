@@ -77,9 +77,14 @@ function SignUp() {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="container-fluid"
+      style={{ width: "33vw" }}
+    >
       <Title text="Sign Up" cssBgc="white" />
-      <div className="d-flex flex-row align-items-center mb-4">
+
+      <div className="d-flex flex-column align-items-center mb-4">
         <input
           ref={inputRef}
           className="form-control"
@@ -96,13 +101,14 @@ function SignUp() {
         ) : null}
       </div>
 
-      <div className="d-flex flex-row align-items-center mb-4">
+      <div className="d-flex flex-column align-items-center mb-4">
         <input
           id="email"
           name="email"
           type="text"
           placeholder="Email"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.email}
           className="form-control"
         />
@@ -112,7 +118,7 @@ function SignUp() {
         ) : null}
       </div>
 
-      <div className="d-flex flex-row align-items-center mb-4">
+      <div className="d-flex flex-column align-items-center mb-4">
         <input
           id="password"
           name="password"
@@ -120,6 +126,7 @@ function SignUp() {
           placeholder="Password"
           onChange={formik.handleChange}
           value={formik.values.password}
+          onBlur={formik.handleBlur}
           className="form-control"
         />
 
@@ -128,7 +135,7 @@ function SignUp() {
         ) : null}
       </div>
 
-      <div className="d-flex flex-row align-items-center mb-4">
+      <div className="d-flex flex-column align-items-center mb-4">
         <input
           id="confirmPassword"
           name="confirmPassword"
@@ -136,6 +143,7 @@ function SignUp() {
           placeholder="Confirm Password"
           onChange={formik.handleChange}
           value={formik.values.confirmPassword}
+          onBlur={formik.handleBlur}
           className="form-control"
         />
 

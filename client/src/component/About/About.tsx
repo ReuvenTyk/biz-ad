@@ -4,7 +4,7 @@ import Title from "../Title/Title";
 function About() {
   return (
     <>
-      <Title text="About This App" cssBgc="black" />
+      <Title text="About This App" cssBgc="black" secText="" />
       <div className="container-fluid d-flex flex-column w-50">
         <p className="lead text-center">
           This app is the best place for your place <br /> Join us TODAY!

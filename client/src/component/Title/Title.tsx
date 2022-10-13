@@ -15,10 +15,11 @@ function Title(props: Props) {
         return "bg-white text-dark";
     }
   }
+
   return (
     <>
       <div className={getCssBgc()}>
-        <div className="pt-1 pb-1 mb-3">
+        <div className="container-fluid pt-1 pb-1 mb-3">
           <h1 className="text-center">
             <div>{props.text}</div>
           </h1>
