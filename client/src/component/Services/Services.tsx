@@ -1,4 +1,6 @@
 import Title from "../Title/Title";
+import AddBar from "./AddBar/AddBar";
+import Table from "./Table/Table";
 
 function Services() {
   return (
@@ -6,18 +8,10 @@ function Services() {
       <Title
         text="Services"
         secText="What makes BizAd the #1 app"
-        // cssBgc="bg-white text-dark"
+        cssBgc="black"
       />
-
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th className="w-25">Service Name</th>
-            <th className="w-25">Status</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <AddBar />
+      <Table />
     </>
   );
 }

@@ -59,8 +59,8 @@ function Login() {
   });
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
-        <Title text="Login" />
+      <form onSubmit={formik.handleSubmit} className="container-fluid w-25">
+        <Title text="Login" cssBgc="white" />
 
         <div className="mb-3">
           <input

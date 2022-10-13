@@ -5,7 +5,6 @@ module.exports = {
     try {
       const result = await Card.find();
       res.json(result);
-      console.log(result);
     } catch (err) {
       console.log(err);
       res.status(400).send("error getting cards");

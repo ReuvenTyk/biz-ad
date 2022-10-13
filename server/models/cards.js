@@ -14,7 +14,7 @@ const cardSchema = new mongoose.Schema({
     require: true,
   },
   address: {
-    type: Number,
+    type: String,
     require: true,
   },
   weUrl: {

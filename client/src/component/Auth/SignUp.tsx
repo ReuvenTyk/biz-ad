@@ -78,7 +78,7 @@ function SignUp() {
 
   return (
     <form onSubmit={formik.handleSubmit} className="container-fluid w-50">
-      <Title text="Sign Up" />
+      <Title text="Sign Up" cssBgc="white" />
       <div className="d-flex flex-row align-items-center mb-4">
         <input
           ref={inputRef}

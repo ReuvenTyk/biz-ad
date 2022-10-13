@@ -22,9 +22,12 @@ class Card extends React.Component<Props> {
     const { data } = this.props;
 
     return (
-      <div className="card border-0 m-4 shadow bg-dark bg-opacity-10">
+      <div className="card border-0 m-4 shadow">
         <img src={data.imgUrl} alt={data.name} className="card-img-top" />
-        <div className="badge text-bg-light border border-dark">
+        <div
+          style={{ width: "60px" }}
+          className="badge text-bg-light border border-dark m-2"
+        >
           {data.bizNum}
         </div>
         <div className="card-body">
@@ -35,9 +38,9 @@ class Card extends React.Component<Props> {
           <hr />
           <div className="card-text">{data.address}</div>
           <hr />
-          <Link to={data.webUrl} state={data} className="btn btn-primary">
+          <a href={data.webUrl} className="btn btn-primary">
             Visit Website
-          </Link>
+          </a>
         </div>
       </div>
     );

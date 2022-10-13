@@ -87,19 +87,19 @@ class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   render() {
-    // if (this.state.filteredByName.length === 0)
-    //   return <p>No Businesses to show</p>;
+    if (this.state.filteredByName.length === 0)
+      return <p>No Businesses to show</p>;
 
     return (
       <>
         <Title
           text="Biz Ad"
           secText="Advertising your business"
-          // cssBgc="bg-white text-dark"
+          cssBgc="black"
         />
 
         <div className="d-flex justify-content-between px-5">
-          <div className="d-flex input-group mb-2 w-25">
+          <div className="d-flex input-group mb-2" style={{ width: "30vw" }}>
             <span className="input-group-text" id="basic-addon1">
               <i className="bi bi-search" />
             </span>
