@@ -2,11 +2,17 @@ import { useState } from "react";
 import { postRequest } from "../../../services/apiService";
 import { ServiceType } from "../Services";
 
-function AddBar() {
+interface Props {
+  services: Array<ServiceType>;
+  addService: Function;
+}
+
+function AddBar(props: Props) {
   const [service, setService] = useState<string>("");
   const [status, setStatus] = useState<string>("active");
   const [enabled, setEnabled] = useState<boolean>(true);
   const [check, setCheck] = useState<boolean>(false);
+  const [exist, setExist] = useState<boolean>(false);
 
   function handleSubmit(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -15,13 +21,27 @@ function AddBar() {
       service: service,
       status: status,
     };
-
-    postRequest("services/add", values).then((res) => {
-      console.log("ok");
-    });
+    if (!exist) {
+      postRequest("services/add", values).then((res) => {
+        props.addService();
+        setExist(true);
+      });
+    }
   }
+
   function checkService(value: string) {
     setService(value);
+
+    if (props.services.length === 0) {
+      setExist(false);
+    }
+
+    for (const service of props.services) {
+      if (service.service === value) {
+        setExist(true);
+        break;
+      } else setExist(false);
+    }
 
     if (value === "") {
       setEnabled(true);
@@ -75,8 +95,11 @@ function AddBar() {
           type="submit"
           onClick={handleSubmit}
           className="btn btn-info text-white"
-          disabled={enabled}
+          disabled={enabled || exist}
         />
+        {exist ? (
+          <div className="text-danger">Services all ready Exist</div>
+        ) : null}
       </form>
     </>
   );

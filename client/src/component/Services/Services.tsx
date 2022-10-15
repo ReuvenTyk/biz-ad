@@ -41,8 +41,7 @@ class Services extends React.Component<{}, ServicesState> {
       });
   }
 
-  deleteAndUpdate = (id: string) => {
-    deleteRequest("services/", id);
+  refreshPage() {
     const res = getRequest(`services/`);
     if (!res) {
       return;
@@ -54,6 +53,15 @@ class Services extends React.Component<{}, ServicesState> {
           services: json,
         }));
       });
+  }
+
+  deleteService = (id: string) => {
+    deleteRequest("services/", id);
+    this.refreshPage();
+  };
+
+  addService = () => {
+    this.refreshPage();
   };
 
   render() {
@@ -64,11 +72,17 @@ class Services extends React.Component<{}, ServicesState> {
           secText="What makes BizAd the #1 app"
           cssBgc="black"
         />
-        <AddBar />
+        <AddBar services={this.state.services} addService={this.addService} />
+
+        {this.state.services.length === 0 && (
+          <div className={`alert alert-info`} role="alert">
+            You haven't selected any services yet.
+          </div>
+        )}
 
         <Table
           services={this.state.services}
-          deleteService={this.deleteAndUpdate}
+          deleteService={this.deleteService}
         />
       </>
     );

@@ -7,20 +7,6 @@ interface Props {
   deleteService: Function;
 }
 
-function deleteAndUpdate(id: string, services: Array<ServiceType>) {
-  deleteRequest("services/", id);
-  const res = getRequest("services/");
-  if (!res) {
-    return;
-  }
-
-  res
-    .then((res) => res.json())
-    .then((json) => {
-      services = json;
-    });
-}
-
 function Table(props: Props) {
   return (
     <table className="table table-hover">
