@@ -1,6 +1,24 @@
+import { useEffect } from "react";
+import { getRequest } from "../../../services/apiService";
 import Status from "../Status/Status";
 
-interface Props {}
+// useEffect(() => {
+//   const res = getRequest(`services/`);
+//   if (!res) {
+//     return;
+//   }
+
+//   res
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data);
+
+//       // setCard(card);
+//       // setName(card.name);
+//       // setDescription(card.description);
+//       // setPrice(card.price);
+//     });
+// });
 
 function Table() {
   return (

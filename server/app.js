@@ -7,6 +7,7 @@ const headers = require("./middleware/headers");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var cardsRouter = require("./routes/cards");
+var servicesRouter = require("./routes/services");
 
 const auth = require("./middleware/auth");
 
@@ -22,5 +23,6 @@ app.use(headers);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/cards", auth, cardsRouter);
+app.use("/services", servicesRouter);
 
 module.exports = app;
