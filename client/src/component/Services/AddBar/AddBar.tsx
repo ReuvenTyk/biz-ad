@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { postRequest } from "../../../services/apiService";
+import { ServiceType } from "../Services";
 
 function AddBar() {
   const [service, setService] = useState<string>("");
@@ -21,6 +22,7 @@ function AddBar() {
   }
   function checkService(value: string) {
     setService(value);
+
     if (value === "") {
       setEnabled(true);
       setCheck(true);

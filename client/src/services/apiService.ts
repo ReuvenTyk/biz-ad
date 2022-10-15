@@ -43,3 +43,21 @@ export const getRequest = function (
     },
   });
 };
+
+export const deleteRequest = function (
+  endPoint: string,
+  id: string
+): Promise<Response> | null {
+  if (!verifyToken()) {
+    return null;
+  }
+
+  return fetch(`${serverUrl}${endPoint}`, {
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": getToken(),
+    },
+    body: JSON.stringify({ _id: id }),
+  });
+};

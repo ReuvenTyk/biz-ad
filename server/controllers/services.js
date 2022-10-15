@@ -1,9 +1,9 @@
-const { Service, Services } = require("../models/services");
+const { Services } = require("../models/services");
 
 module.exports = {
   get: async function (req, res, next) {
     try {
-      const result = await Service.find({});
+      const result = await Services.find();
       res.json(result);
     } catch (err) {
       console.log(err);
@@ -24,7 +24,7 @@ module.exports = {
 
   delete: async function (req, res, next) {
     try {
-      await Service.deleteOne({ _id: req.body._id }).exec();
+      await Services.deleteOne({ _id: req.body._id }).exec();
       res.json({ _id: req.body._id });
     } catch (err) {
       console.log(err);

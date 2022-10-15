@@ -1,7 +1,7 @@
-import React from "react";
+import { badgeType } from "../Services";
 
 interface Props {
-  type: "active" | "disabled";
+  type: badgeType;
 }
 function Status(props: Props) {
   function getBadgeCss() {

@@ -1,26 +1,27 @@
-import { useEffect } from "react";
-import { getRequest } from "../../../services/apiService";
+import { deleteRequest, getRequest } from "../../../services/apiService";
+import { ServiceType } from "../Services";
 import Status from "../Status/Status";
 
-// useEffect(() => {
-//   const res = getRequest(`services/`);
-//   if (!res) {
-//     return;
-//   }
+interface Props {
+  services: Array<ServiceType>;
+  deleteService: Function;
+}
 
-//   res
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data);
+function deleteAndUpdate(id: string, services: Array<ServiceType>) {
+  deleteRequest("services/", id);
+  const res = getRequest("services/");
+  if (!res) {
+    return;
+  }
 
-//       // setCard(card);
-//       // setName(card.name);
-//       // setDescription(card.description);
-//       // setPrice(card.price);
-//     });
-// });
+  res
+    .then((res) => res.json())
+    .then((json) => {
+      services = json;
+    });
+}
 
-function Table() {
+function Table(props: Props) {
   return (
     <table className="table table-hover">
       <thead>
@@ -30,24 +31,22 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {/* {props.users.map((user) => (
-            <tr key={user._id} className="bg-light">
-              <td>{user.fullName}</td>
-              <td>
-                <Status type={user.status}></Status>
-              </td>
-              <td>{user.email}</td>
-              <td>
-                <button
-                  //the add of arrow func so the function won't start before clicking
-                  onClick={() => props.deleteUser(user._id, user.fullName)}
-                  className="btn btn-default"
-                >
-                  <i className="bi-trash3"></i>
-                </button>
-              </td>
-            </tr>
-          ))} */}
+        {props.services.map((service) => (
+          <tr key={service._id} className="bg-light">
+            <td>{service.service}</td>
+            <td>
+              <Status type={service.status}></Status>
+            </td>
+            <td>
+              <button
+                onClick={() => props.deleteService(service._id)}
+                className="btn btn-default"
+              >
+                <i className="bi-trash3"></i>
+              </button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
