@@ -23,7 +23,7 @@ function AddBar(props: Props) {
       description: "",
     };
     if (!exist) {
-      postRequest("services/add", values).then((res) => {
+      postRequest("services/", values).then((res) => {
         props.addService();
         setExist(true);
       });

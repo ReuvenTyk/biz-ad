@@ -27,13 +27,13 @@ function UpdateService() {
     e.preventDefault();
 
     const values = {
+      service: service.service,
       status: status,
       description: comment,
     };
-    console.log(values);
 
-    patchRequest(`/services/${service._id}`, { status, comment });
-    // redirect();
+    patchRequest(`services/`, values).then(() => console.log("updated"));
+    redirect();
   }
 
   function changedStatus(value: string) {
@@ -82,8 +82,9 @@ function UpdateService() {
           </select>
         </div>
         <div className="d-flex flex-column m-3 w-25">
-          <label htmlFor="">Comment</label>
+          <label>Comment</label>
           <textarea
+            value={comment}
             className="form-control"
             onChange={(e) => changedComment(e.target.value)}
           />

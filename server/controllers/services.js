@@ -1,4 +1,5 @@
 const { Services } = require("../models/services");
+const { joi } = require("joi");
 
 module.exports = {
   get: async function (req, res, next) {
@@ -32,5 +33,17 @@ module.exports = {
     }
   },
 
-  update: async function (req, res, next) {}, //todo
+  update: async function (req, res, next) {
+    try {
+      const result = await Services.findOneAndUpdate(
+        { service: req.body.service },
+        req.body
+      );
+
+      res.json(result);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send("error getting card");
+    }
+  }, //todo
 };
