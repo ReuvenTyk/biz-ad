@@ -9,6 +9,7 @@ import SignUp from "./component/Auth/SignUp";
 import Header from "./component/Header/Header";
 import Main, { displayMode } from "./component/Main/Main";
 import Services from "./component/Services/Services";
+import UpdateService from "./component/Services/UpdateService/UpdateService";
 
 function App() {
   return (
@@ -31,6 +32,14 @@ function App() {
           element={
             <PrivateRoute>
               <Services />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="updateService"
+          element={
+            <PrivateRoute>
+              <UpdateService />
             </PrivateRoute>
           }
         ></Route>

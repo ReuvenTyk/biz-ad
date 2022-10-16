@@ -6,6 +6,6 @@ const services = require("../controllers/services");
 router.get("/", services.get);
 router.post("/add", services.add);
 router.delete("/", services.delete);
-// router.update("/", services.update);
+router.patch("/:id", services.update);
 
 module.exports = router;

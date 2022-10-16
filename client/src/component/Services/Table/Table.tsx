@@ -1,4 +1,4 @@
-import { deleteRequest, getRequest } from "../../../services/apiService";
+import { Link } from "react-router-dom";
 import { ServiceType } from "../Services";
 import Status from "../Status/Status";
 
@@ -19,7 +19,11 @@ function Table(props: Props) {
       <tbody>
         {props.services.map((service) => (
           <tr key={service._id} className="bg-light">
-            <td>{service.service}</td>
+            <td>
+              <Link to="/updateService" state={service}>
+                {service.service}
+              </Link>
+            </td>
             <td>
               <Status type={service.status}></Status>
             </td>

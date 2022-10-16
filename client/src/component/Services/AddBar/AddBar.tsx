@@ -20,6 +20,7 @@ function AddBar(props: Props) {
     const values = {
       service: service,
       status: status,
+      description: "",
     };
     if (!exist) {
       postRequest("services/add", values).then((res) => {
