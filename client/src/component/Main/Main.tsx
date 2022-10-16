@@ -68,9 +68,23 @@ class Menu extends React.Component<MenuProps, MenuState> {
       return cards;
     }
 
-    return cards.filter((card) => {
-      return card.name === nameSearch;
+    let okCard: Array<CardType> = [];
+    cards.filter((card) => {
+      nameSearch.toLocaleLowerCase();
+      const cardName = card.name.toLocaleLowerCase();
+      let flag = false;
+      for (let i = 0; i < nameSearch.length; i++) {
+        if (nameSearch[i] !== cardName[i]) {
+          flag = false;
+        } else {
+          flag = true;
+        }
+      }
+      if (flag) {
+        okCard.push(card);
+      }
     });
+    return okCard;
   };
 
   nameChangeSearch = (selected: string) => {
@@ -87,9 +101,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   render() {
-    if (this.state.filteredByName.length === 0)
-      return <p>No Businesses to show</p>;
-
     return (
       <>
         <Title
@@ -97,7 +108,6 @@ class Menu extends React.Component<MenuProps, MenuState> {
           secText="Advertising your business"
           cssBgc="black"
         />
-
         <div className="d-flex justify-content-between px-5">
           <div className="d-flex input-group mb-2" style={{ width: "30vw" }}>
             <span className="input-group-text" id="basic-addon1">
@@ -126,16 +136,19 @@ class Menu extends React.Component<MenuProps, MenuState> {
             </button>
           </div>
         </div>
-
-        <div className={this.state.display}>
-          {this.state.filteredByName.map((card) => (
-            <Card
-              key={card._id}
-              data={card}
-              nameChangeSearch={this.nameChangeSearch}
-            />
-          ))}
-        </div>
+        {this.state.filteredByName.length === 0 ? (
+          <p>No Businesses to show</p>
+        ) : (
+          <div className={this.state.display}>
+            {this.state.filteredByName.map((card) => (
+              <Card
+                key={card._id}
+                data={card}
+                nameChangeSearch={this.nameChangeSearch}
+              />
+            ))}
+          </div>
+        )}
       </>
     );
   }
