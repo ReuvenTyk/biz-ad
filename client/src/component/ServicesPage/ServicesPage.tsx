@@ -15,6 +15,7 @@ export type ServiceType = {
 
 interface ServicesState {
   services: Array<ServiceType>;
+  deleted: boolean;
 }
 
 class ServicesPage extends React.Component<{}, ServicesState> {
@@ -23,6 +24,7 @@ class ServicesPage extends React.Component<{}, ServicesState> {
 
     this.state = {
       services: [],
+      deleted: true,
     };
   }
 
