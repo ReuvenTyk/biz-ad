@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ServiceType } from "../Services";
+import { ServiceType } from "../ServicesPage";
 import Status from "../Status/Status";
 
 interface Props {

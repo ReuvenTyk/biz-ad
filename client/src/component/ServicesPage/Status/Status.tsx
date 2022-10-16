@@ -1,4 +1,4 @@
-import { badgeType } from "../Services";
+import { badgeType } from "../ServicesPage";
 
 interface Props {
   type: badgeType;

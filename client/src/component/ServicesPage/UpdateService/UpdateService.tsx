@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { patchRequest } from "../../../services/apiService";
 import Title from "../../Title/Title";
-import { ServiceType } from "../Services";
+import { ServiceType } from "../ServicesPage";
 
 interface LocationState {
   state: ServiceType;
@@ -19,6 +19,12 @@ function UpdateService() {
   const [comment, setComment] = useState<string>(service.description);
   const [commentChange, setCommentChange] = useState<boolean>(true);
 
+  useEffect(() => {
+    if (service.status === "disabled") {
+      setStatusChange(false);
+    }
+  }, []);
+
   function redirect() {
     navigate("/services");
   }
@@ -32,7 +38,7 @@ function UpdateService() {
       description: comment,
     };
 
-    patchRequest(`services/`, values).then(() => console.log("updated"));
+    patchRequest(`services/`, values);
     redirect();
   }
 
@@ -91,7 +97,7 @@ function UpdateService() {
         </div>
 
         <input
-          value="Add Service"
+          value="Update Service"
           type="submit"
           onClick={updateService}
           className="btn btn-primary m-3"

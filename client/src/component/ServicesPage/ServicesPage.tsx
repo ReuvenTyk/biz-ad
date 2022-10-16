@@ -17,7 +17,7 @@ interface ServicesState {
   services: Array<ServiceType>;
 }
 
-class Services extends React.Component<{}, ServicesState> {
+class ServicesPage extends React.Component<{}, ServicesState> {
   constructor(props: {}) {
     super(props);
 
@@ -89,4 +89,4 @@ class Services extends React.Component<{}, ServicesState> {
   }
 }
 
-export default Services;
+export default ServicesPage;

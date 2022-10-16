@@ -8,8 +8,8 @@ import PrivateRoute from "./component/Auth/PrivateRoute";
 import SignUp from "./component/Auth/SignUp";
 import Header from "./component/Header/Header";
 import Main, { displayMode } from "./component/Main/Main";
-import Services from "./component/Services/Services";
-import UpdateService from "./component/Services/UpdateService/UpdateService";
+import ServicesPage from "./component/ServicesPage/ServicesPage";
+import UpdateService from "./component/ServicesPage/UpdateService/UpdateService";
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
           path="services"
           element={
             <PrivateRoute>
-              <Services />
+              <ServicesPage />
             </PrivateRoute>
           }
         ></Route>

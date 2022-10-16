@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { postRequest } from "../../../services/apiService";
-import { ServiceType } from "../Services";
+import { ServiceType } from "../ServicesPage";
 
 interface Props {
   services: Array<ServiceType>;
